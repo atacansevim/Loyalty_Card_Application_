@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "370257571327",
+    "firebase_url": "https://loyalty-card-application.firebaseio.com",
+    "project_id": "loyalty-card-application",
+    "storage_bucket": "loyalty-card-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370257571327:android:0cfbf114b9ebf072338bca",
+        "android_client_info": {
+          "package_name": "com.example.loyalty_card_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370257571327-ts931vpfmr219qfvhpfqsmp20ib3tn7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGSY7GTpBRLQqK04pSPbYwhKAIbvmy96U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370257571327-ts931vpfmr219qfvhpfqsmp20ib3tn7c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
