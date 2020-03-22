@@ -104,7 +104,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
         }
         else
         {
-
             UserData.put("userPhone",userPhone);
         }
         //String user_id = firebaseAuth.getUid();

@@ -6,27 +6,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.FilterReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListViewAdapter extends BaseAdapter {
+public class ListViewAdapter extends BaseAdapter implements Filterable {
     LayoutInflater layoutInflater;
-    List<ListViewElement> list;
-    public ListViewAdapter(Activity activity, List<ListViewElement> mList)
-    {
-        layoutInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        list=mList;
+    ArrayList<ListViewElement> orginiallist;
+    ArrayList<ListViewElement> templist;
+    Context c;
+    CustomFilter cs;
+
+    public ListViewAdapter(Context c, ArrayList<ListViewElement> orginiallist) {
+        this.c = c;
+        this.orginiallist = orginiallist;
+        this.templist = orginiallist;
+
     }
+
     @Override
     public int getCount() {
-        return list.size();
+        return orginiallist.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return orginiallist.get(position);
     }
 
     @Override
@@ -38,14 +49,57 @@ public class ListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View elementView;
-        elementView = layoutInflater.inflate(R.layout.cardelement,null);
-        ImageView iv = (ImageView)elementView.findViewById(R.id.CardImageView);
-        TextView tv = (TextView)elementView.findViewById(R.id.CardNameTextView);
+        LayoutInflater layoutInflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        elementView = layoutInflater.inflate(R.layout.cardelement, null);
+        ImageView iv = (ImageView) elementView.findViewById(R.id.CardImageView);
+        TextView tv = (TextView) elementView.findViewById(R.id.CardNameTextView);
 
-        ListViewElement cardlist = list.get(position);
-        tv.setText(cardlist.getName().toString());
-        iv.setImageResource(R.drawable.common_full_open_on_phone);
+
+        tv.setText(orginiallist.get(position).getName());
+        iv.setImageResource(orginiallist.get(position).getImage());
 
         return elementView;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(cs == null)
+        {
+            cs = new CustomFilter();
+        }
+        return cs;
+    }
+    class CustomFilter extends Filter
+    {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if(constraint != null && constraint.length()> 0) {
+                constraint = constraint.toString().toUpperCase();
+
+                ArrayList<ListViewElement> filters = new ArrayList<>();
+                for (int i = 0; i < templist.size(); i++) {
+                    if (templist.get(i).getName().toUpperCase().contains(constraint)) {
+                        ListViewElement listViewElement = new ListViewElement(templist.get(i).getName(), templist.get(i).getImage());
+                        filters.add(listViewElement);
+                    }
+                }
+                filterResults.count = filters.size();
+                filterResults.values = filters;
+            }
+            else
+            {
+                filterResults.count = templist.size();
+                filterResults.values = templist;
+            }
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            orginiallist = (ArrayList<ListViewElement>)results.values;
+            notifyDataSetChanged();
+        }
     }
 }

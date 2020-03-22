@@ -7,34 +7,31 @@
     tools:context=".ChooseCardFromListActivity">
 
     <EditText
-        android:id="@+id/searchFilter"
-        android:layout_width="387dp"
-        android:layout_height="70dp"
+        android:id="@+id/editText"
+        android:layout_width="412dp"
+        android:layout_height="75dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/toplistview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/toplistview"
-        android:layout_width="419dp"
-        android:layout_height="199dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="399dp"
+        android:layout_height="130dp"
+        app:layout_constraintBottom_toTopOf="@+id/alllistview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchFilter" />
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <ListView
         android:id="@+id/alllistview"
-        android:layout_width="409dp"
-        android:layout_height="454dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginBottom="2dp"
+        android:layout_width="400dp"
+        android:layout_height="478dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toplistview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
