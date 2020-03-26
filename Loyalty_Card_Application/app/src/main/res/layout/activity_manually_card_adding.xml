@@ -7,7 +7,7 @@
     tools:context=".ManuallyCardAdding">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/CardImageView"
         android:layout_width="282dp"
         android:layout_height="216dp"
         android:layout_marginTop="39dp"
@@ -20,11 +20,11 @@
 
     <EditText
         android:id="@+id/cardnumber"
-        android:layout_width="337dp"
+        android:layout_width="339dp"
         android:layout_height="56dp"
         android:layout_marginStart="41dp"
         android:layout_marginLeft="41dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="41dp"
         android:layout_marginRight="41dp"
         android:layout_marginBottom="55dp"
@@ -33,15 +33,16 @@
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <EditText
         android:id="@+id/description"
-        android:layout_width="328dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
+        android:layout_width="339dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="39dp"
+        android:layout_marginLeft="39dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="37dp"
         android:layout_marginRight="37dp"
@@ -68,7 +69,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cardnumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/CardImageView" />
 
     <Button
         android:id="@+id/addbtn"
@@ -111,5 +112,5 @@
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/CardImageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

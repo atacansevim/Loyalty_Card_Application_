@@ -28,15 +28,10 @@ public class HomePageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+
+
         cardslist = (GridView)findViewById(R.id.cardlist);
 
         FillListView();
@@ -44,8 +39,8 @@ public class HomePageActivity extends AppCompatActivity {
         {
             String name = getIntent().getStringExtra("CardName");
             int txtcolor =  getIntent().getIntExtra("textcolor",Color.WHITE);
-            int bgcolor = getIntent().getIntExtra("bgcolor",Color.BLACK);
-            array_characters.add(new GridViewElement(name,txtcolor,bgcolor, 200, 200));
+            int bgcolor = getIntent().getIntExtra("bgcolor",Color.rgb(255,165,0));
+            array_characters.add(new GridViewElement(name,txtcolor,bgcolor, 525, 525));
         }
         GridViewAdapter adapter = new GridViewAdapter(this,array_characters);
         cardslist.setAdapter(adapter);
@@ -54,10 +49,10 @@ public class HomePageActivity extends AppCompatActivity {
     public void FillListView()
     {
         getGridviewwidth =  cardslist.getWidth();
-        for(int i = 0; i < 5;i++)//length get size firebasedan
-        {
-            array_characters.add(new GridViewElement(Integer.toString(getGridviewwidth), Color.YELLOW,Color.BLACK,200,200));
-        }
+       //length get size firebasedan
+        array_characters.add(new GridViewElement("BIM", Color.RED,Color.WHITE,525,525));
+        array_characters.add(new GridViewElement("MIGROS",Color.rgb(255,165,0),Color.WHITE,525,525));
+
 
     }
 

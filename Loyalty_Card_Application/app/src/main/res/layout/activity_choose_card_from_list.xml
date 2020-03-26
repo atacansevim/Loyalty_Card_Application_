@@ -9,29 +9,63 @@
     <EditText
         android:id="@+id/editText"
         android:layout_width="412dp"
-        android:layout_height="75dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="6dp"
         android:ems="10"
+        android:hint="Search..."
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/toplistview"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/toplistview"
-        android:layout_width="399dp"
-        android:layout_height="130dp"
+        android:layout_width="405dp"
+        android:layout_height="143dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <ListView
+        android:id="@+id/alllistview"
+        android:layout_width="408dp"
+        android:layout_height="454dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="134dp"
+        android:layout_height="21dp"
+        android:layout_marginEnd="277dp"
+        android:layout_marginRight="277dp"
+        android:text="All List"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/alllistview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toplistview" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="347dp"
+        android:layout_marginRight="347dp"
+        android:text="Top List"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/toplistview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-    <ListView
-        android:id="@+id/alllistview"
-        android:layout_width="400dp"
-        android:layout_height="478dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toplistview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,10 +22,10 @@ public class ChooseCardFromListActivity extends AppCompatActivity{
     EditText SearchFilter;
     ArrayList<ListViewElement> allcards = new ArrayList<ListViewElement>();
     ArrayList<ListViewElement> topcards = new ArrayList<ListViewElement>();
-    String[] topname = {"X","Y","Z"};
-    String[] allname = {"X","Y","Z","R","T","E","A"};
-    int[] topimages = {R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal};
-    int[] allimages = {R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal};
+    String[] topname = {"Migros","Teknosa","Bim"};
+    String[] allname = {"Migros","Teknosa","Bim","R","T","E","A"};
+    int[] topimages = {R.drawable.migros,R.drawable.teknosa,R.drawable.bim};
+    int[] allimages = {R.drawable.migros,R.drawable.teknosa,R.drawable.bim,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

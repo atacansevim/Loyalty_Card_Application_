@@ -21,6 +21,18 @@ public class ManuallyCardAdding extends AppCompatActivity {
         descriptionText = findViewById(R.id.description);
         cardimage = findViewById(R.id.CardImageView);
         cardName = getIntent().getStringExtra("CardName");
+        if(cardName.equals("Migros"))
+        {
+            cardimage.setImageResource(R.drawable.migros);
+        }
+        else if(cardName.equals("Teknosa"))
+        {
+            cardimage.setImageResource(R.drawable.teknosa_logo);
+        }
+        else
+        {
+            cardimage.setImageResource(R.drawable.migros);
+        }
     }
     public void SaveCard()
     {
@@ -33,8 +45,8 @@ public class ManuallyCardAdding extends AppCompatActivity {
         {
             Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
             intent.putExtra("CardName",cardName);
-            intent.putExtra("textcolor", Color.YELLOW);
-            intent.putExtra("bgcolor",Color.BLACK);
+            intent.putExtra("textcolor", Color.rgb(255,165,0));
+            intent.putExtra("bgcolor",Color.WHITE);
             finish();
             startActivity(intent);
         }
