@@ -2,13 +2,17 @@ package com.example.loyalty_card_application;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 public class ManuallyCardAdding extends AppCompatActivity {
     EditText cardnumberText,descriptionText;
     ImageView cardimage;
+    String cardName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,14 +20,23 @@ public class ManuallyCardAdding extends AppCompatActivity {
         cardnumberText = findViewById(R.id.cardnumber);
         descriptionText = findViewById(R.id.description);
         cardimage = findViewById(R.id.CardImageView);
-        String cardName = getIntent().getStringExtra("CardName");
+        cardName = getIntent().getStringExtra("CardName");
+    }
+    public void SaveCard()
+    {
 
-        //String test1 = "R.drawable.common_google_signin_btn_icon_light_normal";
-        //int test = Integer.parseInt(test1);
-        //cardimage.setImageResource(test);
+    }
 
-
-
-
+    public void addcard(View view)
+    {
+        if(cardnumberText.getText().toString() != null && cardnumberText.getText().toString() != "")
+        {
+            Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
+            intent.putExtra("CardName",cardName);
+            intent.putExtra("textcolor", Color.YELLOW);
+            intent.putExtra("bgcolor",Color.BLACK);
+            finish();
+            startActivity(intent);
+        }
     }
 }
