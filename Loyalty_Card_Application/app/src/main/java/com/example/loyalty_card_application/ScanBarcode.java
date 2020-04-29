@@ -41,6 +41,7 @@ public class ScanBarcode extends AppCompatActivity implements View.OnClickListen
                         Intent intent = new Intent(ScanBarcode.this,ManuallyCardAdding.class);
                         intent.putExtra("CardName",cardname);
                         startActivity(intent);
+
                     }
                 });
                 alertdialogbuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -93,5 +94,12 @@ public class ScanBarcode extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         scannow();
+    }
+
+    public void clickbutton(View v)
+    {
+        Intent intent = new Intent(ScanBarcode.this,ManuallyCardAdding.class);
+        intent.putExtra("CardName",cardname);
+        startActivity(intent);
     }
 }
