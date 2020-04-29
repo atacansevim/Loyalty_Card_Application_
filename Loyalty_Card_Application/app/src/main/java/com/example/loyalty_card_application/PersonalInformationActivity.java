@@ -127,6 +127,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
     }
     public void Skip(View view){
         //Consider this page if user does not fill fieldss...
-
+        String test = "test";
     }
 }
