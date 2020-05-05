@@ -45,8 +45,6 @@ public class HomePageActivity extends AppCompatActivity {
         currentuseremail = firebaseAuth.getCurrentUser().getEmail();
         cardslist = (GridView)findViewById(R.id.cardlist);
         getdataFromFirebase();
-
-
         FillListView();
         if(getIntent() != null && getIntent().getStringExtra("CardName") != null)
         {

@@ -53,14 +53,14 @@ public class ManuallyCardAdding extends AppCompatActivity {
     {
         if(cardnumberText.getText().toString() != null && cardnumberText.getText().toString() != "")
         {
-            HashMap<String,Object> CardData = new HashMap<>();
+            HashMap<String,Object> _CardData = new HashMap<>();
             firebaseFirestore = FirebaseFirestore.getInstance();
             String currentuseremail = firebaseAuth.getCurrentUser().getEmail();
-            CardData.put("userEmail",currentuseremail);
-            CardData.put("CardName",cardName);
-            CardData.put("CardNumber",cardnumberText);
-            CardData.put("CardDescription",descriptionText);
-            firebaseFirestore.collection("CardData").add(CardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            _CardData.put("userEmail",currentuseremail);
+            _CardData.put("CardName",cardName);
+            _CardData.put("CardNumber",cardnumberText.getText().toString());
+            _CardData.put("CardDescription",descriptionText.getText().toString());
+            firebaseFirestore.collection("CardData").add(_CardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
