@@ -65,7 +65,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
         String userBirthdate = birthdateText.getText().toString();
         String userPhone = phoneText.getText().toString();
         HashMap<String,Object> UserData = new HashMap<>();
-        UserData.put("userEmail",userEmail);
+        UserData.put("userEmail",firebaseUser.getEmail().toString());
         if(userName.matches(""))
         {
             Toast.makeText(PersonalInformationActivity.this,"EmptyName",Toast.LENGTH_LONG).show();
