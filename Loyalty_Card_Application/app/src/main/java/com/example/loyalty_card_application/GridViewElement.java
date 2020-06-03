@@ -2,13 +2,15 @@ package com.example.loyalty_card_application;
 
 public class GridViewElement {
     String name;
+    String id;
     int bgcolor;
     int txtcolor;
     int height;
     int width;
 
-    public GridViewElement(String name, int bgcolor, int txtcolor, int height, int width) {
+    public GridViewElement(String name,String id, int bgcolor, int txtcolor, int height, int width) {
         this.name = name;
+        this.id = id;
         this.bgcolor = bgcolor;
         this.txtcolor = txtcolor;
         this.height = height;

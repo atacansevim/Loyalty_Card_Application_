@@ -2,6 +2,7 @@ package com.example.loyalty_card_application;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.view.Display;
@@ -47,18 +48,25 @@ GridViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Button button;
 
+
         if(convertView == null)
         {
+
             button = new Button(context);
             button.setLayoutParams(new GridView.LayoutParams(arrayList.get(position).getWidth(),arrayList.get(position).getHeight()));
             button.setPadding(0,20,2,20);
             button.setText(arrayList.get(position).getName());
             button.setBackgroundColor(arrayList.get(position).getBgcolor());
             button.setTextColor(arrayList.get(position).txtcolor);
+            final String _Name = arrayList.get(position).getName();
+            final String _ID  =  arrayList.get(position).id;
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,button.getText().toString(),Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(context,CardDetailsActivity.class);
+                    intent.putExtra("CardNumber",_ID);
+                    intent.putExtra("CardName",_Name);
+                    context.startActivity(intent);
 
                 }
             });

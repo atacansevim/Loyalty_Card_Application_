@@ -4,4 +4,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="card_transection">Card Transection</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="card_details">CARD DETAILS</string>
+    <string name="save">Save</string>
+    <string-array name="gender">
+        <item>Female</item>
+        <item>Male</item>
+        <item>IDK</item>
+    </string-array>
 </resources>

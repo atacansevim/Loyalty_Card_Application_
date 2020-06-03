@@ -101,7 +101,7 @@
         android:layout_marginBottom="76dp"
         android:background="@drawable/backgrount2"
         android:onClick="SignUpClicked"
-        android:text="SÄ±gnUp"
+        android:text="SıngUP"
         android:textColor="@color/cardview_light_background"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView7"

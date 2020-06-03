@@ -22,8 +22,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class HomePageActivity extends AppCompatActivity {
     int getGridviewwidth;
     String currentuseremail;String useremal;
     ArrayList<GridViewElement> array_characters;
-    String test = "zz";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,54 +52,34 @@ public class HomePageActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         currentuseremail = firebaseAuth.getCurrentUser().getEmail();
         cardslist = (GridView)findViewById(R.id.cardlist);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_bar);
         array_characters = new ArrayList<>();
         getdataFromFirebase();
-        /*if(getIntent() != null && getIntent().getStringExtra("CardName") != null)
-        {
-            String name = getIntent().getStringExtra("CardName");
-            int txtcolor =  getIntent().getIntExtra("textcolor",Color.WHITE);
-            int bgcolor = getIntent().getIntExtra("bgcolor",Color.rgb(255,165,0));
-            array_characters.add(new GridViewElement(name,txtcolor,bgcolor, 525, 525));
-        }*/
 
-        cardslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ChoosenElement = array_characters.get(position).toString();
-                Intent intent = new Intent(HomePageActivity.this,CardDetailsActivity.class);
-                intent.putExtra("CardName",ChoosenElement);
-                startActivity(intent);
-            }
-        });
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_bar);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        String ChoosenElement = array_characters.get(1).name;
-                        Intent intent = new Intent(HomePageActivity.this,CardDetailsActivity.class);
-                        intent.putExtra("CardName","Migros");
-                        startActivity(intent);
                         break;
                     case R.id.navigation_add_card:
-                        Intent a = new Intent(HomePageActivity.this,ChooseCardFromListActivity.class);
-                        startActivity(a);
+                        Intent ChooseCardFromListActivity = new Intent(HomePageActivity.this,ChooseCardFromListActivity.class);
+                        startActivity(ChooseCardFromListActivity);
                         break;
                     case R.id.navigation_offers:
+                        Intent OfferActivity = new Intent(HomePageActivity.this,OfferActivity.class);
+                        startActivity(OfferActivity);
 
                         break;
-                        case R.id.navigation_account:
-                            Intent b = new Intent(HomePageActivity.this,AccountPageActivity.class);
-                            startActivity(b);
+                    case R.id.navigation_account:
+                        Intent AccountPageActivity = new Intent(HomePageActivity.this,AccountPageActivity.class);
+                        startActivity(AccountPageActivity);
 
                         break;
                 }
                 return false;
             }
         });
-
     }
 
 
@@ -125,10 +107,10 @@ public class HomePageActivity extends AppCompatActivity {
                     {
                         if(count %2 == 0) {
                             count++;
-                            array_characters.add(new GridViewElement(d.get("CardName").toString(), Color.RED, Color.WHITE, 525, 525));
+                            array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.RED, Color.WHITE, 525, 525));
                         }
                         else
-                            array_characters.add(new GridViewElement(d.get("CardName").toString(),Color.rgb(255,165,0),Color.WHITE, 525, 525));
+                            array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(),Color.rgb(255,165,0),Color.WHITE, 525, 525));
 
 
 

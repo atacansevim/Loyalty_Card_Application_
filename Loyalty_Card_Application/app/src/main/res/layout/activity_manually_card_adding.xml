@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ManuallyCardAdding">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_bar"
+        android:layout_width="415dp"
+        android:layout_height="55dp"
+        android:layout_gravity="start"
+        android:background="#FFFFFF"
+        app:itemTextColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:menu="@menu/bottom_nav_menu" />
+
     <ImageView
         android:id="@+id/CardImageView"
         android:layout_width="282dp"
@@ -32,14 +45,14 @@
         android:ems="10"
         android:hint="card number"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintBottom_toTopOf="@+id/carddescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/carddescription"
         android:layout_width="339dp"
         android:layout_height="55dp"
         android:layout_marginStart="39dp"
@@ -101,7 +114,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/addbtn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@+id/carddescription" />
 
     <TextView
         android:id="@+id/textView11"

@@ -5,14 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CardDetailsActivity"
-    tools:layout_editor_absoluteX="-2dp"
-    tools:layout_editor_absoluteY="-34dp">
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_bar"
+        android:layout_width="415dp"
+        android:layout_height="55dp"
+        android:layout_gravity="start"
+        android:background="#FFFFFF"
+        app:itemTextColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:menu="@menu/bottom_nav_menu" />
 
     <ImageView
         android:id="@+id/cardImageView"
         android:layout_width="163dp"
         android:layout_height="115dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/textView12"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,8 +51,7 @@
         android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toTopOf="@+id/HeaderOfDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.338"
-        app:layout_constraintStart_toStartOf="@+id/HeaderOfDescription"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12"
         app:srcCompat="@drawable/logo" />
 
@@ -63,25 +75,9 @@
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/HeaderOfDescription"
+        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HeaderOfDescription" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginLeft="23dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginRight="125dp"
-        android:layout_marginBottom="62dp"
-        android:background="#193664"
-        android:text="Edit"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button4" />
 
     <Button
         android:id="@+id/button6"
@@ -91,13 +87,32 @@
         android:layout_marginRight="7dp"
         android:layout_marginBottom="63dp"
         android:background="#193664"
+        android:onClick="DeleteCard"
         android:text="Delete"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.366"
         app:layout_constraintStart_toEndOf="@+id/button5"
         app:layout_constraintTop_toBottomOf="@+id/Description"
-        app:layout_constraintVertical_bias="0.987" />
+        app:layout_constraintVertical_bias="0.745" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginRight="125dp"
+        android:layout_marginBottom="88dp"
+        android:background="#193664"
+        android:onClick="StartEditCardActivity"
+        android:text="edıt"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button4" />
 
     <Button
         android:id="@+id/button4"
@@ -109,6 +124,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="64dp"
         android:background="#193664"
+        android:onClick="CardDetails"
         android:text="Card Transaction"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -116,6 +132,6 @@
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Description"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.752" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

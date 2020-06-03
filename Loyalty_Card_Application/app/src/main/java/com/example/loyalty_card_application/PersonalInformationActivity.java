@@ -3,10 +3,17 @@ package com.example.loyalty_card_application;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,13 +29,17 @@ import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class PersonalInformationActivity extends AppCompatActivity {
+public class PersonalInformationActivity extends AppCompatActivity{
     EditText nameText,surnameText,birthdateText,phoneText;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
+    Spinner spinner_gender;
+    String Gender;
+    private DatePickerDialog.OnDateSetListener mDatePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +48,54 @@ public class PersonalInformationActivity extends AppCompatActivity {
         surnameText = findViewById(R.id.editTextSurname);
         birthdateText = findViewById(R.id.editTextBirthDate);
         phoneText = findViewById(R.id.editTextPhone);
+        spinner_gender = findViewById(R.id.spinner2);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.gender, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_gender.setAdapter(adapter);
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         Login();
+        spinner_gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Gender = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        birthdateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog dialog = new DatePickerDialog(
+                        PersonalInformationActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDatePicker,
+                        year,month,day);
+                dialog.getDatePicker().setMaxDate(new Date().getTime());
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
+        mDatePicker = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+
+                String date = month + "." + day + "." + year;
+                birthdateText.setText(date);
+            }
+        };
+
     }
     public void Login(){
         String userEmail = getIntent().getStringExtra("userEmail");
@@ -88,15 +144,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
         }
         else
         {
-            Date userbirthdate;
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            try {
-                userbirthdate = format.parse(userBirthdate);
-                UserData.put("userBirthdate",userbirthdate);
-            } catch (ParseException e) {
-                Toast.makeText(PersonalInformationActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
-            }
-
+            UserData.put("userBirthdate",userBirthdate);
         }
         if(userPhone.matches(""))
         {
@@ -106,9 +154,16 @@ public class PersonalInformationActivity extends AppCompatActivity {
         {
             UserData.put("userPhone",userPhone);
         }
-        //String user_id = firebaseAuth.getUid();
+        if(Gender.matches("") || Gender == null)
+        {
+            Toast.makeText(PersonalInformationActivity.this,"Empty Gender",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            UserData.put("userGender",Gender);
+        }
 
-        //UserData.put("UserUUID",user_id);
+
         firebaseFirestore.collection("UserData").add(UserData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -121,12 +176,11 @@ public class PersonalInformationActivity extends AppCompatActivity {
                 Toast.makeText(PersonalInformationActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
             }
         });
-
-
-
     }
     public void Skip(View view){
         //Consider this page if user does not fill fieldss...
 
     }
+
+
 }

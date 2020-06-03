@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CardTransactionActivity"></activity>
+        <activity android:name=".CardEditActivity"></activity>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".CardTransactionActivity" />
         <activity android:name=".CardDetailsActivity" />
         <activity android:name=".AccountPageActivity" />
         <activity android:name=".ManuallyCardAdding" />
@@ -33,7 +35,7 @@
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".OfferActivity"/>
+        <activity android:name=".OfferActivity" />
     </application>
 
 </manifest>

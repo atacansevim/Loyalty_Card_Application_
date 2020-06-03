@@ -1,14 +1,25 @@
 package com.example.loyalty_card_application;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class OfferActivity extends AppCompatActivity {
     private ViewPager mSlideViewPager;
@@ -18,6 +29,11 @@ public class OfferActivity extends AppCompatActivity {
     private Button mNextBtn;
     private Button mBackBtn;
     private int myCurrentPage;
+    private FirebaseAuth firebaseAuth;
+    public FirebaseFirestore firebaseFirestore;
+    String currentuseremail;
+    String _CardName;
+    String _CardNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +43,9 @@ public class OfferActivity extends AppCompatActivity {
         mNextBtn=(Button)findViewById(R.id.nextBtn);
         mBackBtn=(Button)findViewById(R.id.prevBtn);
         sliderAdapter = new SliderAdapter(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        currentuseremail = firebaseAuth.getCurrentUser().getEmail();
 
         mSlideViewPager.setAdapter(sliderAdapter);
         addDotsIndıcator(0);
@@ -61,6 +80,41 @@ public class OfferActivity extends AppCompatActivity {
             mDots[position].setTextColor(getResources().getColor(R.color.colorPrimary));
 
         }
+    }
+
+    public void getdataFromFirebase(String _cardname)
+    {
+        CollectionReference collectionReference = firebaseFirestore.collection("CardData");
+        collectionReference.whereEqualTo("userEmail",currentuseremail).whereEqualTo("CardName",_cardname).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(e != null)
+                {
+
+                }
+                if(queryDocumentSnapshots != null)
+                {
+                    for(DocumentSnapshot d:queryDocumentSnapshots.getDocuments())
+                    {
+                        _CardNumber = d.get("CardNumber").toString();
+                        Intent CardDetailsActivity = new Intent(OfferActivity.this,CardDetailsActivity.class);
+                        CardDetailsActivity.putExtra("CardName",_CardName);
+                        CardDetailsActivity.putExtra("CardNumber",_CardNumber);
+                        startActivity(CardDetailsActivity);
+                    }
+                }
+                else
+                {
+                    Toast.makeText(OfferActivity.this,"You dont have"+ _CardName +"card",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void StartUseOffer(View view)
+    {
+      _CardName = sliderAdapter.slide_headings[myCurrentPage].toLowerCase();
+      getdataFromFirebase(_CardName);
     }
     ViewPager.OnPageChangeListener viewListener=new ViewPager.OnPageChangeListener() {
         @Override

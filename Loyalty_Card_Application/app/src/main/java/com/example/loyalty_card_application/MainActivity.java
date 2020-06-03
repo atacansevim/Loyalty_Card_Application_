@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -40,18 +42,21 @@ public class MainActivity extends AppCompatActivity {
         if(password.matches(confirmpassword))
         {
             //verify email
-            firebaseAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(MainActivity.this,new OnCompleteListener<AuthResult>() {
                 @Override
-                public void onSuccess(AuthResult authResult) {
-                    Toast.makeText(MainActivity.this,"SignUp Succes",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainActivity.this,PersonalInformationActivity.class);
-                    intent.putExtra("userEmail", email);
-                    intent.putExtra("userPassword",password);
-                    startActivity(intent);
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful())
+                    {Toast.makeText(MainActivity.this,"SignUp Succes",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(MainActivity.this,PersonalInformationActivity.class);
+                        intent.putExtra("userEmail", email);
+                        intent.putExtra("userPassword",password);
+                        startActivity(intent);
+                    }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    System.out.println("Erroasdasdasdasdasdasdasdar" + e.getLocalizedMessage().toString());
                     Toast.makeText(MainActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
                 }
             });

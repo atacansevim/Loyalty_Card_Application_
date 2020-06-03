@@ -19,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailText,passwordText;
     TextView forgotpassword,SignUpButton;
     private FirebaseAuth firebaseAuth;
+    String userEmail = "";
+    String userPassword = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +30,14 @@ public class LoginActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.PasswordEditText);
         forgotpassword = findViewById(R.id.ForgotPassword);
         SignUpButton = findViewById(R.id.SignUp);
+        userEmail =  emailText.getText().toString();
+        userPassword = passwordText.getText().toString();
     }
 
     public void SignUp(View view){
-        String userEmail = emailText.getText().toString();
-        String userPassword = passwordText.getText().toString();
+        if(userEmail != "" && userPassword != "")
+        { userEmail = emailText.getText().toString();
+          userPassword = passwordText.getText().toString();
         firebaseAuth.signInWithEmailAndPassword(userEmail,userPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
@@ -45,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
             }
         });
+        }
+        else
+        {
+            Toast.makeText(LoginActivity.this,"Enter Your Information",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void ForgotPassword(View view)
