@@ -97,16 +97,16 @@ public class ManuallyCardAdding extends AppCompatActivity {
             firebaseFirestore = FirebaseFirestore.getInstance();
             String currentuseremail = firebaseAuth.getCurrentUser().getEmail();
             _CardData.put("userEmail",currentuseremail);
-            _CardData.put("CardName",cardName);
+            _CardData.put("CardName",cardName.toLowerCase());
             _CardData.put("CardNumber",cardnumberText.getText().toString());
             _CardData.put("CardDescription",descriptionText.getText().toString());
             firebaseFirestore.collection("CardData").add(_CardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
-                    intent.putExtra("CardName",cardName);
-                    intent.putExtra("textcolor", Color.rgb(255,165,0));
-                    intent.putExtra("bgcolor",Color.WHITE);
+                    //intent.putExtra("CardName",cardName);
+                    //intent.putExtra("textcolor", Color.rgb(255,165,0));
+                    //intent.putExtra("bgcolor",Color.WHITE);
                     finish();
                     startActivity(intent);
                 }

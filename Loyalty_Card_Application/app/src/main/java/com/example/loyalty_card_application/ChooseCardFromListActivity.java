@@ -22,10 +22,10 @@ public class ChooseCardFromListActivity extends AppCompatActivity{
     EditText SearchFilter;
     ArrayList<ListViewElement> allcards = new ArrayList<ListViewElement>();
     ArrayList<ListViewElement> topcards = new ArrayList<ListViewElement>();
-    String[] topname = {"Migros","Teknosa","Bim"};
-    String[] allname = {"Migros","Teknosa","Bim","R","T","E","A"};
-    int[] topimages = {R.drawable.migros,R.drawable.teknosa,R.drawable.bim};
-    int[] allimages = {R.drawable.migros,R.drawable.teknosa,R.drawable.bim,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal,R.drawable.common_google_signin_btn_icon_light_normal};
+    String[] topname = {"Migros","Teknosa"};
+    String[] allname = {"Migros","Teknosa","Mavi","Gratis","Opet","Shell"};
+    int[] topimages = {R.drawable.migros,R.drawable.teknosa};
+    int[] allimages = {R.drawable.migros,R.drawable.teknosa,R.drawable.mavi,R.drawable.gratis,R.drawable.opet,R.drawable.shell};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +67,9 @@ public class ChooseCardFromListActivity extends AppCompatActivity{
         lstall.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ChoosenElement = allname[position].toString();
+                ListViewElement ChoosenElement = (ListViewElement) adapter_all.getItem(position);
                 Intent intent = new Intent(ChooseCardFromListActivity.this,ScanBarcode.class);
-                intent.putExtra("CardName",ChoosenElement);
+                intent.putExtra("CardName",ChoosenElement.getName().toLowerCase());
                 startActivity(intent);
             }
         });

@@ -9,7 +9,7 @@ public class GridViewElement {
     int width;
 
     public GridViewElement(String name,String id, int bgcolor, int txtcolor, int height, int width) {
-        this.name = name;
+        this.name = name.toLowerCase();
         this.id = id;
         this.bgcolor = bgcolor;
         this.txtcolor = txtcolor;

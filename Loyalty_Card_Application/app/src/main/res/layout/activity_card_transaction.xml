@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/cardLogo"
-        android:layout_width="416dp"
-        android:layout_height="224dp"
+        android:layout_width="282dp"
+        android:layout_height="216dp"
         android:layout_marginBottom="29dp"
         app:layout_constraintBottom_toTopOf="@+id/textView15"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +49,8 @@
 
     <ListView
         android:id="@+id/transaction_view"
-        android:layout_width="402dp"
-        android:layout_height="367dp"
+        android:layout_width="405dp"
+        android:layout_height="340dp"
         android:layout_marginTop="3dp"
         app:layout_constraintBottom_toTopOf="@+id/navigation_bar"
         app:layout_constraintEnd_toEndOf="parent"

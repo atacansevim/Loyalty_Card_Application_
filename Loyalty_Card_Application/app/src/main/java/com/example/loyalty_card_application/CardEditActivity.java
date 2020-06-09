@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,7 +61,7 @@ public class CardEditActivity extends AppCompatActivity {
         CardDescription = getIntent().getStringExtra("CardDescription");
         carddescription.setText(CardDescription);
         cardnumber.setText(CardNumber);
-        Picasso.get().load(storageReference.child("logo/"+CardName.toLowerCase()+".png").getDownloadUrl().getResult()).into(cardlogo);
+        GetUrl();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_bar);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -116,6 +118,18 @@ public class CardEditActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void GetUrl()
+    {
+        StorageReference urlreferance = FirebaseStorage.getInstance().getReference("logo/"+CardName.toLowerCase()+".png");
+        urlreferance.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String dowlandurl = uri.toString();
+                Picasso.get().load(dowlandurl).into(cardlogo);
+            }
+        });
     }
 
 

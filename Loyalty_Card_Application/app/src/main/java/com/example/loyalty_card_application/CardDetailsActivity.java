@@ -112,7 +112,7 @@ public class CardDetailsActivity extends AppCompatActivity {
                 return false;
             }
         });
-        CreateShopData();
+        _CreateShopData();
 
     }
     public void GetUrl()
@@ -202,7 +202,7 @@ public class CardDetailsActivity extends AppCompatActivity {
     public void getdataFromFirebase()
     {
         CollectionReference collectionReference = firebaseFirestore.collection("CardData");
-        collectionReference.whereEqualTo("userEmail",currentuseremail).whereEqualTo("CardName",CardName).whereEqualTo("CardNumber",CardNumber).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        collectionReference.whereEqualTo("userEmail",currentuseremail).whereEqualTo("CardName",CardName.toLowerCase()).whereEqualTo("CardNumber",CardNumber).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(e != null)
@@ -269,6 +269,74 @@ public class CardDetailsActivity extends AppCompatActivity {
         ShopData.put("Product",Produtcs);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
+        ShopData.put("Date",currentDateandTime.toString());
+
+        firebaseFirestore.collection("ShopData").add(ShopData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(CardDetailsActivity.this,"Added Shop Data",Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CardDetailsActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+    public void _CreateShopData()
+    {
+        Random rand = new Random();
+        int product_count = (int) (1  + Math.random() * (5 - 1));
+        int day = (int) (1  + Math.random() * (30 - 1));
+        int month = (int) (1  + Math.random() * (6 - 1));
+        int index = 0;
+        Double Amount = 10 + rand.nextDouble() * (1000 - 10);
+        Amount = round(Amount, 2);
+        HashMap<String,Object> ShopData = new HashMap<>();
+        ArrayList<String> Produtcs = new ArrayList<String>();
+        String[] Migros = new String[]{"Delicatessen","Fruits&Vegetables","Furniture","Drink","Food","Cleaning Materials"};
+        String[] Teknosa = new String[]{"Phone","Computer","HeadPhone","Accessory","Charger","Computer Components"};
+
+        for(int i = 0; i < product_count ;i++)
+        {
+            index = (int) (1  + Math.random() * (6 - 1));
+            if(CardName.equalsIgnoreCase("Teknosa"))
+            {
+                Produtcs.add(Teknosa[index]);
+            }
+            else
+            {
+                Produtcs.add(Migros[index]);
+            }
+        }
+        //Amount CardName CardNumber Date Product userEmail
+        ShopData.put("Amount",Amount.toString());
+        ShopData.put("CardName",CardName);
+        ShopData.put("CardNumber",CardNumber);
+        ShopData.put("userEmail",currentuseremail);
+        ShopData.put("Product",Produtcs);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        String[] parsedCurrentDay = currentDateandTime.split(" ");
+        if (day < 10 & month < 10)
+        {
+            currentDateandTime = "0"+day+"."+"0"+month+"."+"2020 "+parsedCurrentDay[1];
+        }
+        else if (day >= 10 & month < 10)
+        {
+            currentDateandTime = day+"."+"0"+month+"."+"2020 "+parsedCurrentDay[1];
+        }
+        else if (day < 10 & month >= 10)
+        {
+            currentDateandTime = "0"+day+"."+month+"."+"2020 "+parsedCurrentDay[1];
+        }
+        else
+        {
+            currentDateandTime = currentDateandTime;
+        }
+
         ShopData.put("Date",currentDateandTime.toString());
 
         firebaseFirestore.collection("ShopData").add(ShopData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

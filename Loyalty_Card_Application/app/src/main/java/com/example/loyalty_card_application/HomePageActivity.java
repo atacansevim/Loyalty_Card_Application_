@@ -38,7 +38,7 @@ public class HomePageActivity extends AppCompatActivity {
     GridView cardslist;
     int gridviewheight;
     int getGridviewwidth;
-    String currentuseremail;String useremal;
+    String currentuseremail;
     ArrayList<GridViewElement> array_characters;
 
 
@@ -91,7 +91,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     public void getdataFromFirebase()
     {
-
+        array_characters.clear();
         CollectionReference collectionReference = firebaseFirestore.collection("CardData");
         collectionReference.whereEqualTo("userEmail",currentuseremail).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -109,9 +109,10 @@ public class HomePageActivity extends AppCompatActivity {
                             count++;
                             array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.RED, Color.WHITE, 525, 525));
                         }
-                        else
-                            array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(),Color.rgb(255,165,0),Color.WHITE, 525, 525));
-
+                        else {
+                            count++;
+                            array_characters.add(new GridViewElement(d.get("CardName").toString(), d.get("CardNumber").toString(), Color.rgb(255, 165, 0), Color.WHITE, 525, 525));
+                        }
 
 
                     }
