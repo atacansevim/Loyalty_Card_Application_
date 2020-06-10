@@ -64,6 +64,7 @@ public class CardEditActivity extends AppCompatActivity {
         GetUrl();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_bar);
+
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -96,28 +97,25 @@ public class CardEditActivity extends AppCompatActivity {
     public void Update(View view)
     {
         DocumentReference UserDataRef = firebaseFirestore.collection("CardData").document(DocumentId);
+        if(cardnumber.getText().toString() != "") {
+            UserDataRef.update("CardNumber", cardnumber.getText().toString(), "CardDescription", carddescription.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(CardEditActivity.this, "Succes", Toast.LENGTH_LONG).show();
 
-        UserDataRef.update("CardNumber",cardnumber.getText().toString(),"CardDescription",carddescription.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                {
-                    Toast.makeText(CardEditActivity.this,"Succes",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(CardEditActivity.this, CardDetailsActivity.class);
+                        intent.putExtra("CardName", CardName);
+                        intent.putExtra("CardNumber", cardnumber.getText().toString());
+                        finish();
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(CardEditActivity.this, task.getException().toString(), Toast.LENGTH_LONG).show();
 
-                    Intent intent = new Intent(CardEditActivity.this,CardDetailsActivity.class);
-                    intent.putExtra("CardName",CardName);
-                    intent.putExtra("CardNumber",cardnumber.getText().toString());
-                    finish();
-                    startActivity(intent);
+                    }
                 }
-                else
-                {
-                    Toast.makeText(CardEditActivity.this,task.getException().toString(),Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
-
+            });
+        }
     }
 
     public void GetUrl()

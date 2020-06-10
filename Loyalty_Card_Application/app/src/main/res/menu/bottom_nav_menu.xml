@@ -20,9 +20,4 @@
         android:id="@+id/navigation_account"
         android:icon="@drawable/user"
         android:title="Account" />
-
-
-
-
-
 </menu>

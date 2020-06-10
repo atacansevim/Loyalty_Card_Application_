@@ -31,6 +31,7 @@ public class OfferActivity extends AppCompatActivity {
     private int myCurrentPage;
     private FirebaseAuth firebaseAuth;
     public FirebaseFirestore firebaseFirestore;
+    int flag = 0;
     String currentuseremail;
     String _CardName;
     String _CardNumber;
@@ -46,6 +47,7 @@ public class OfferActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         currentuseremail = firebaseAuth.getCurrentUser().getEmail();
+        flag = 0;
 
         mSlideViewPager.setAdapter(sliderAdapter);
         addDotsIndıcator(0);
@@ -84,6 +86,7 @@ public class OfferActivity extends AppCompatActivity {
 
     public void getdataFromFirebase(String _cardname)
     {
+
         CollectionReference collectionReference = firebaseFirestore.collection("CardData");
         collectionReference.whereEqualTo("userEmail",currentuseremail).whereEqualTo("CardName",_cardname).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -94,18 +97,21 @@ public class OfferActivity extends AppCompatActivity {
                 }
                 if(queryDocumentSnapshots != null)
                 {
-                    for(DocumentSnapshot d:queryDocumentSnapshots.getDocuments())
-                    {
-                        _CardNumber = d.get("CardNumber").toString();
-                        Intent CardDetailsActivity = new Intent(OfferActivity.this,CardDetailsActivity.class);
-                        CardDetailsActivity.putExtra("CardName",_CardName);
-                        CardDetailsActivity.putExtra("CardNumber",_CardNumber);
-                        startActivity(CardDetailsActivity);
-                    }
-                }
-                else
-                {
-                    Toast.makeText(OfferActivity.this,"You dont have"+ _CardName +"card",Toast.LENGTH_LONG).show();
+
+                        for (DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
+                            flag = 1;
+                            _CardNumber = d.get("CardNumber").toString();
+                            Intent CardDetailsActivity = new Intent(OfferActivity.this, CardDetailsActivity.class);
+                            CardDetailsActivity.putExtra("CardName", _CardName);
+                            CardDetailsActivity.putExtra("CardNumber", _CardNumber);
+                            startActivity(CardDetailsActivity);
+                        }
+                        if(flag == 0)
+                        {
+                            Toast.makeText(OfferActivity.this,"You dont have "+ _CardName +" card",Toast.LENGTH_LONG).show();
+                        }
+
+
                 }
             }
         });

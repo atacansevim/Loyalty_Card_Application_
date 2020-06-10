@@ -53,6 +53,7 @@ public class AccountPageActivity extends AppCompatActivity {
         useremailtw.setText(currentuseremail);
         useraccountimage.setImageResource(R.drawable.user);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_bar);
+        navigation.setSelectedItemId(R.id.navigation_account);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {

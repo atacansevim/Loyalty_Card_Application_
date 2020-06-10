@@ -27,6 +27,7 @@ import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.security.InvalidKeyException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -178,7 +179,68 @@ public class PersonalInformationActivity extends AppCompatActivity{
         });
     }
     public void Skip(View view){
-        //Consider this page if user does not fill fieldss...
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        String userEmail = getIntent().getStringExtra("userEmail");
+        String userName = nameText.getText().toString();
+        String userSurname = surnameText.getText().toString();
+        String userBirthdate = birthdateText.getText().toString();
+        String userPhone = phoneText.getText().toString();
+        HashMap<String,Object> UserData = new HashMap<>();
+        UserData.put("userEmail",firebaseUser.getEmail().toString());
+        if(userName.matches(""))
+        {
+            UserData.put("userName","");
+        }
+        else
+        {
+            UserData.put("userName",userName);
+        }
+        if(userSurname.matches(""))
+        {
+            UserData.put("userSurname","");
+        }
+        else
+        {
+            UserData.put("userSurname",userSurname);
+        }
+        if(userBirthdate.matches(""))
+        {
+            UserData.put("userBirthdate","");
+        }
+        else
+        {
+            UserData.put("userBirthdate",userBirthdate);
+        }
+        if(userPhone.matches(""))
+        {
+            UserData.put("userPhone","");
+        }
+        else
+        {
+            UserData.put("userPhone",userPhone);
+        }
+        if(Gender.matches("") || Gender == null)
+        {
+            UserData.put("userGender", "IDK");
+        }
+        else
+        {
+            UserData.put("userGender",Gender);
+        }
+
+
+        firebaseFirestore.collection("UserData").add(UserData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Intent intent = new Intent(PersonalInformationActivity.this,HomePageActivity.class);
+                startActivity(intent);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(PersonalInformationActivity.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 

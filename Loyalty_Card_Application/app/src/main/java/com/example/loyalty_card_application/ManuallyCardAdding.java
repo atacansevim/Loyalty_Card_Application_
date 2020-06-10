@@ -1,6 +1,7 @@
 package com.example.loyalty_card_application;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,12 +14,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -33,6 +42,12 @@ public class ManuallyCardAdding extends AppCompatActivity {
     EditText cardnumberText,descriptionText;
     ImageView cardimage;
     String cardName;
+    String cardNumber;
+    String currentuseremail;
+    private int flag;
+    int checkflag = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +56,18 @@ public class ManuallyCardAdding extends AppCompatActivity {
         descriptionText = findViewById(R.id.carddescription);
         cardimage = findViewById(R.id.CardImageView);
         cardName = getIntent().getStringExtra("CardName");
+        cardNumber = getIntent().getStringExtra("CardNumber");
+        if(cardNumber != null && cardNumber != "")
+        {
+            cardnumberText.setText(cardNumber);
+        }
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
+        currentuseremail = firebaseAuth.getCurrentUser().getEmail();
         GetUrl();
-
+        setFlag(0);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation_bar);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -89,33 +110,130 @@ public class ManuallyCardAdding extends AppCompatActivity {
         });
     }
 
-    public void addcard(View view)
+    public void getdataFromFirebase()
     {
-        if(cardnumberText.getText().toString() != null && cardnumberText.getText().toString() != "")
-        {
-            HashMap<String,Object> _CardData = new HashMap<>();
-            firebaseFirestore = FirebaseFirestore.getInstance();
-            String currentuseremail = firebaseAuth.getCurrentUser().getEmail();
-            _CardData.put("userEmail",currentuseremail);
-            _CardData.put("CardName",cardName.toLowerCase());
-            _CardData.put("CardNumber",cardnumberText.getText().toString());
-            _CardData.put("CardDescription",descriptionText.getText().toString());
-            firebaseFirestore.collection("CardData").add(_CardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
-                    //intent.putExtra("CardName",cardName);
-                    //intent.putExtra("textcolor", Color.rgb(255,165,0));
-                    //intent.putExtra("bgcolor",Color.WHITE);
-                    finish();
-                    startActivity(intent);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
+
+        CollectionReference collectionReference = firebaseFirestore.collection("CardData");
+        collectionReference.whereEqualTo("userEmail",currentuseremail).whereEqualTo("CardName",cardName.toLowerCase()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(e != null)
+                {
                     Toast.makeText(ManuallyCardAdding.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
                 }
-            });
-        }
+                if(queryDocumentSnapshots != null)
+                {
+                    for(DocumentSnapshot d:queryDocumentSnapshots.getDocuments())
+                    {
+                        setFlag(1);
+                        break;
+                    }
+                    if(flag == 0)
+                    {
+                        if(cardnumberText.getText().toString() != null && cardnumberText.getText().toString() != "" )
+                        {
+                            HashMap<String,Object> _CardData = new HashMap<>();
+                            firebaseFirestore = FirebaseFirestore.getInstance();
+                            String currentuseremail = firebaseAuth.getCurrentUser().getEmail();
+                            _CardData.put("userEmail",currentuseremail);
+                            _CardData.put("CardName",cardName.toLowerCase());
+                            _CardData.put("CardNumber",cardnumberText.getText().toString());
+                            _CardData.put("CardDescription",descriptionText.getText().toString());
+                            firebaseFirestore.collection("CardData").add(_CardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(ManuallyCardAdding.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                    else
+                    {
+
+                            Toast.makeText(ManuallyCardAdding.this,"You already have a card",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+    }
+
+    public void addcard(View view)
+    {
+        checkandaddcard();
+
+    }
+
+    public int checkandaddcard()
+    {
+
+        CollectionReference collectionReference = firebaseFirestore.collection("CardData");
+        collectionReference.whereEqualTo("userEmail",currentuseremail).whereEqualTo("CardName",cardName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        setFlag(1);
+                        break;
+                    }
+                    if(flag == 0)
+                    {
+                        if(cardnumberText.getText().toString() != null && cardnumberText.getText().toString() != "" )
+                        {
+                            HashMap<String,Object> _CardData = new HashMap<>();
+                            firebaseFirestore = FirebaseFirestore.getInstance();
+                            String currentuseremail = firebaseAuth.getCurrentUser().getEmail();
+                            _CardData.put("userEmail",currentuseremail);
+                            _CardData.put("CardName",cardName.toLowerCase());
+                            _CardData.put("CardNumber",cardnumberText.getText().toString());
+                            _CardData.put("CardDescription",descriptionText.getText().toString());
+                            firebaseFirestore.collection("CardData").add(_CardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(ManuallyCardAdding.this,e.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                    else
+                    {
+
+                        Toast.makeText(ManuallyCardAdding.this,"You already have a card",Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+                    Toast.makeText(ManuallyCardAdding.this,task.getException().toString(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+            return flag;
+    }
+
+    public void cancelbuttononclick(View view)
+    {
+        Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }

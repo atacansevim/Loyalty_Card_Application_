@@ -55,13 +55,13 @@ public class ScanBarcode extends AppCompatActivity implements View.OnClickListen
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,requestCode,data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(result != null)
         {
             if(result.getContents() == null)
             {
                 AlertDialog.Builder alertdialogbuilder = new AlertDialog.Builder(this);
-                alertdialogbuilder.setMessage("Result Not Found, You can write your number");
+                alertdialogbuilder.setMessage("Result Not Found, Do you want write your card number?");
                 alertdialogbuilder.setTitle("Enter Manullay");
                 alertdialogbuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -96,6 +96,10 @@ public class ScanBarcode extends AppCompatActivity implements View.OnClickListen
                 alertdialogbuilder.setNeutralButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(ScanBarcode.this,ManuallyCardAdding.class);
+                        intent.putExtra("CardName",cardname);
+                        intent.putExtra("CardNumber",cardnumber);
+                        startActivity(intent);
                         finish();
                     }
                 });
