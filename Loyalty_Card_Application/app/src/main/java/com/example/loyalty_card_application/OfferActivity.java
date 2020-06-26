@@ -108,7 +108,7 @@ public class OfferActivity extends AppCompatActivity {
                         }
                         if(flag == 0)
                         {
-                            Toast.makeText(OfferActivity.this,"You dont have "+ _CardName +" card",Toast.LENGTH_LONG).show();
+                            Toast.makeText(OfferActivity.this,"You dont have "+ _CardName.toUpperCase() +" card",Toast.LENGTH_LONG).show();
                         }
 
 

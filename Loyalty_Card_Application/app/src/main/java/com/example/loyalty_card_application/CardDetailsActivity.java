@@ -156,7 +156,7 @@ public class CardDetailsActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful())
                                 {
-                                    Toast.makeText(CardDetailsActivity.this,"Succes Deleted",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CardDetailsActivity.this,"Successfully Deleted",Toast.LENGTH_LONG).show();
                                     Intent AccountPageActivity = new Intent(CardDetailsActivity.this,HomePageActivity.class);
                                     startActivity(AccountPageActivity);
                                 }

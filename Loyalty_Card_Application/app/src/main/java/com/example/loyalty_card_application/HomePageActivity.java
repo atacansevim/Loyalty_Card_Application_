@@ -69,12 +69,10 @@ public class HomePageActivity extends AppCompatActivity {
                     case R.id.navigation_offers:
                         Intent OfferActivity = new Intent(HomePageActivity.this,OfferActivity.class);
                         startActivity(OfferActivity);
-
                         break;
                     case R.id.navigation_account:
                         Intent AccountPageActivity = new Intent(HomePageActivity.this,AccountPageActivity.class);
                         startActivity(AccountPageActivity);
-
                         break;
                 }
                 return false;
@@ -102,16 +100,32 @@ public class HomePageActivity extends AppCompatActivity {
                 }
                 if(queryDocumentSnapshots != null)
                 {
-                    int count = 0;
+
                     for(DocumentSnapshot d:queryDocumentSnapshots.getDocuments())
                     {
-                        if(count %2 == 0) {
-                            count++;
-                            array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.RED, Color.WHITE, 525, 525));
-                        }
-                        else {
-                            count++;
-                            array_characters.add(new GridViewElement(d.get("CardName").toString(), d.get("CardNumber").toString(), Color.rgb(255, 165, 0), Color.WHITE, 525, 525));
+
+
+
+                        switch (d.get("CardName").toString()) {
+
+                            case "teknosa":
+                                array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.rgb(255, 165, 0), Color.WHITE, 525, 525));
+                                break;
+                            case "migros":
+                                array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.rgb(255, 140, 0), Color.WHITE, 525, 525));
+                                break;
+                            case "shell":
+                                array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.RED, Color.WHITE, 525, 525));
+                                break;
+                            case "opet":
+                                array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.rgb(0, 0, 139), Color.WHITE, 525, 525));
+                                break;
+                            case "mavi":
+                                array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.BLUE, Color.WHITE, 525, 525));
+                                break;
+                            case "gratis":
+                                array_characters.add(new GridViewElement(d.get("CardName").toString(),d.get("CardNumber").toString(), Color.rgb(204, 204, 0), Color.WHITE, 525, 525));
+                                break;
                         }
 
 

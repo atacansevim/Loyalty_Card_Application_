@@ -45,7 +45,6 @@ public class ManuallyCardAdding extends AppCompatActivity {
     String cardNumber;
     String currentuseremail;
     private int flag;
-    int checkflag = 0;
 
 
     @Override
@@ -55,7 +54,7 @@ public class ManuallyCardAdding extends AppCompatActivity {
         cardnumberText = findViewById(R.id.cardnumber);
         descriptionText = findViewById(R.id.carddescription);
         cardimage = findViewById(R.id.CardImageView);
-        cardName = getIntent().getStringExtra("CardName");
+        cardName = getIntent().getStringExtra("CardName").toLowerCase();
         cardNumber = getIntent().getStringExtra("CardNumber");
         if(cardNumber != null && cardNumber != "")
         {
@@ -142,6 +141,7 @@ public class ManuallyCardAdding extends AppCompatActivity {
                             firebaseFirestore.collection("CardData").add(_CardData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(ManuallyCardAdding.this, "Successfully Added",Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(ManuallyCardAdding.this,HomePageActivity.class);
                                     startActivity(intent);
                                     finish();
